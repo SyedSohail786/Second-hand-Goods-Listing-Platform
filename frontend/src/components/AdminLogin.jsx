@@ -5,6 +5,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { FiLock, FiMail, FiLogIn } from 'react-icons/fi';
 import { toast } from 'react-hot-toast';
+const backend = import.meta.env.VITE_BACKEND_URI;
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -18,7 +19,7 @@ const AdminLogin = () => {
     setIsLoading(true);
     
     try {
-      const res = await axios.post('http://localhost:5000/api/admin/login', { email, password });
+      const res = await axios.post(`${backend}/api/admin/login`, { email, password });
       loginAdmin(res.data.admin, res.data.token);
       toast.success('Admin login successful!', {
         style: {

@@ -1,63 +1,141 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import useAuthStore from '../store/authStore';
+import { FiShoppingBag, FiUser, FiDollarSign, FiCalendar, FiMapPin, FiTruck } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { toast } from 'react-hot-toast';
 
 const AdminSales = () => {
   const { token } = useAuthStore();
   const [sales, setSales] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchSales = async () => {
       try {
+        setIsLoading(true);
         const res = await axios.get('http://localhost:5000/api/admin/products', {
           headers: { Authorization: `Bearer ${token}` }
         });
 
-        // ✅ Only sold products
+        // Filter only sold products
         const sold = res.data.filter((p) => p.buyer !== null);
         setSales(sold);
       } catch (err) {
         console.error('Failed to fetch sales', err);
+        toast.error('Failed to load sales data');
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchSales();
   }, [token]);
 
-  return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6 text-purple-800">Sales Report</h2>
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
-      {sales.length === 0 ? (
-        <p className="text-gray-600">No products have been sold yet.</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm border bg-white rounded shadow">
-            <thead className="bg-purple-700 text-white">
-              <tr>
-                <th className="p-2">Product</th>
-                <th>Buyer</th>
-                <th>Seller</th>
-                <th>Address</th>
-                <th>Sold On</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sales.map((item) => (
-                <tr key={item._id} className="border-t text-sm text-gray-700">
-                  <td className="p-2 font-medium">{item.productName}</td>
-                  <td>{item.buyer?.name}</td>
-                  <td>{item.seller?.name}</td>
-                  <td>{item.address}</td>
-                  <td>{new Date(item.buyer?.buyDate).toLocaleDateString()}</td>
-                  <td>₹{item.price}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-4 md:p-6 bg-gray-50 min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-indigo-900">Sales Report</h2>
+          <div className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">
+            {sales.length} {sales.length === 1 ? 'Sale' : 'Sales'}
+          </div>
         </div>
-      )}
+
+        {sales.length === 0 ? (
+          <div className="bg-white rounded-xl shadow-sm p-8 text-center">
+            <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+              <FiShoppingBag className="text-gray-400 text-3xl" />
+            </div>
+            <h3 className="text-xl font-medium text-gray-700 mb-2">No Sales Yet</h3>
+            <p className="text-gray-500">When products are sold, they'll appear here</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sales.map((sale) => (
+              <motion.div
+                key={sale._id}
+                whileHover={{ y: -5 }}
+                className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200"
+              >
+                <div className="p-5">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800">{sale.productName}</h3>
+                      <p className="text-sm text-gray-500">{sale.category}</p>
+                    </div>
+                    <div className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                      Sold
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex items-center text-gray-700">
+                      <FiDollarSign className="mr-2 text-indigo-500" />
+                      <span className="font-medium">₹{sale.price}</span>
+                    </div>
+
+                    <div className="flex items-start text-gray-700">
+                      <FiUser className="mr-2 text-indigo-500 mt-1" />
+                      <div>
+                        <p className="font-medium">Buyer: {sale.buyer?.name}</p>
+                        <p className="text-sm text-gray-500">{sale.buyer?.email}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start text-gray-700">
+                      <FiUser className="mr-2 text-indigo-500 mt-1" />
+                      <div>
+                        <p className="font-medium">Seller: {sale.seller?.name}</p>
+                        <p className="text-sm text-gray-500">{sale.seller?.email}</p>
+                      </div>
+                    </div>
+
+                    {sale.address && (
+                      <div className="flex items-start text-gray-700">
+                        <FiMapPin className="mr-2 text-indigo-500 mt-1" />
+                        <div>
+                          <p className="font-medium">Delivery Address</p>
+                          <p className="text-sm text-gray-500">{sale.address}</p>
+                          {sale.city && <p className="text-sm text-gray-500">{sale.city}</p>}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex items-center text-gray-700">
+                      <FiCalendar className="mr-2 text-indigo-500" />
+                      <span>Sold on {formatDate(sale.buyer?.buyDate)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 px-5 py-3 flex justify-between items-center border-t border-gray-200">
+                  <div className="flex items-center text-sm text-gray-600">
+                    <FiTruck className="mr-2" />
+                    <span>Order #{(sale._id || '').slice(-6).toUpperCase()}</span>
+                  </div>
+                  <button className="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                    View Details
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

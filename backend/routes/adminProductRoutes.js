@@ -15,7 +15,8 @@ router.get('/', admin, async (req, res) => {
 // CREATE product
 router.post('/', admin, upload.array('images', 5), async (req, res) => {
   const {
-    productName, description, price, address, mobile, purchaseDate, sellerId
+    productName, description, price, address, mobile, purchaseDate, sellerId, city,
+    category
   } = req.body;
 
   const images = req.files.map(file => `/uploads/${file.filename}`);
@@ -28,6 +29,8 @@ router.post('/', admin, upload.array('images', 5), async (req, res) => {
     mobile,
     purchaseDate,
     images,
+    city,
+    category,
     seller: sellerId
   });
 
@@ -41,7 +44,7 @@ router.put('/:id', admin, upload.array('images', 5), async (req, res) => {
   if (!product) return res.status(404).json({ message: 'Product not found' });
 
   const {
-    productName, description, price, address, mobile, purchaseDate
+    productName, description, price, address, mobile, purchaseDate, city, category
   } = req.body;
 
   product.productName = productName || product.productName;
@@ -50,6 +53,8 @@ router.put('/:id', admin, upload.array('images', 5), async (req, res) => {
   product.address = address || product.address;
   product.mobile = mobile || product.mobile;
   product.purchaseDate = purchaseDate || product.purchaseDate;
+  product.city = city || product.city;           // ✅
+  product.category = category || product.category;
 
   if (req.files.length > 0) {
     product.images = req.files.map(file => `/uploads/${file.filename}`);

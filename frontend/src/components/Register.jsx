@@ -4,6 +4,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { FiUser, FiMail, FiPhone, FiLock, FiLogIn } from 'react-icons/fi';
 import { toast } from 'react-hot-toast';
+const backend = import.meta.env.VITE_BACKEND_URI;
 
 const Register = () => {
   const [form, setForm] = useState({ 
@@ -24,7 +25,7 @@ const Register = () => {
     setIsLoading(true);
     
     try {
-      await axios.post('http://localhost:5000/api/auth/register', form);
+      await axios.post(`${backend}/api/auth/register`, form);
       toast.success('Registration successful! Please log in.', {
         style: {
           background: '#4f46e5',

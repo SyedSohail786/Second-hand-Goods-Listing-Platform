@@ -57,77 +57,83 @@ const Navbar = () => {
   }, [menuOpen]);
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: 'spring', damping: 25 }}
-      className={`${COLORS.primary} ${COLORS.text} ${scrolled ? 'shadow-md' : ''} fixed w-full z-50 border-b ${COLORS.border}`}
-    >
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between items-center h-16">
-          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-            <Link 
-              to="/" 
-              className={`text-xl font-bold ${COLORS.textHover} transition-colors`}
-              onClick={() => setMenuOpen(false)}
-            >
-              {admin ? '2D Admin' : '2D Products'}
-            </Link>
-          </motion.div>
-
-          {!isMobile ? (
-            <div className="flex space-x-6">
-              {renderNavItems({ user, admin, handleLogout, isMobile: false })}
-            </div>
-          ) : (
-            <motion.button
-              onClick={() => setMenuOpen(!menuOpen)}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-1 rounded-md focus:outline-none"
-              aria-label="Menu"
-            >
-              {menuOpen ? (
-                <FiX className="h-6 w-6 text-blue-500" />
-              ) : (
-                <FiMenu className="h-6 w-6" />
-              )}
-            </motion.button>
-          )}
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {isMobile && menuOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/30 z-40"
-              onClick={() => setMenuOpen(false)}
-            />
-            <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25 }}
-              className={`${COLORS.secondary} fixed top-0 right-0 w-64 h-full z-50 shadow-xl border-l ${COLORS.border}`}
-            >
-              <div className="flex flex-col space-y-1 p-4">
-                {renderNavItems({ 
-                  user, 
-                  admin, 
-                  handleLogout, 
-                  isMobile: true,
-                  closeMenu: () => setMenuOpen(false)
-                })}
-              </div>
+    <>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: 'spring', damping: 25 }}
+        className={`${COLORS.primary} ${COLORS.text} ${scrolled ? 'shadow-md' : ''} fixed w-full z-50 border-b ${COLORS.border}`}
+        style={{ height: '64px' }} 
+      >
+        <div className="max-w-7xl mx-auto px-6 h-full"> {/* Added h-full */}
+          <div className="flex justify-between items-center h-full"> {/* Changed to h-full */}
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+              <Link 
+                to="/" 
+                className={`text-xl font-bold ${COLORS.textHover} transition-colors`}
+                onClick={() => setMenuOpen(false)}
+              >
+                {admin ? '2D Admin' : '2D Products'}
+              </Link>
             </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+
+            {!isMobile ? (
+              <div className="flex space-x-6">
+                {renderNavItems({ user, admin, handleLogout, isMobile: false })}
+              </div>
+            ) : (
+              <motion.button
+                onClick={() => setMenuOpen(!menuOpen)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="p-1 rounded-md focus:outline-none"
+                aria-label="Menu"
+              >
+                {menuOpen ? (
+                  <FiX className="h-6 w-6 text-blue-500" />
+                ) : (
+                  <FiMenu className="h-6 w-6" />
+                )}
+              </motion.button>
+            )}
+          </div>
+        </div>
+
+        <AnimatePresence>
+          {isMobile && menuOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/30 z-40"
+                onClick={() => setMenuOpen(false)}
+              />
+              <motion.div
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'spring', damping: 25 }}
+                className={`${COLORS.secondary} fixed top-0 right-0 w-64 h-full z-50 shadow-xl border-l ${COLORS.border}`}
+              >
+                <div className="flex flex-col space-y-1 p-4">
+                  {renderNavItems({ 
+                    user, 
+                    admin, 
+                    handleLogout, 
+                    isMobile: true,
+                    closeMenu: () => setMenuOpen(false)
+                  })}
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </motion.nav>
+
+      {/* Add padding to the top of your page content equal to navbar height */}
+      <div style={{ paddingTop: '64px' }}></div>
+    </>
   );
 };
 
