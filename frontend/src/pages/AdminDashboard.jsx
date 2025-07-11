@@ -4,6 +4,7 @@ import useAuthStore from '../store/authStore';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { FiUsers, FiBox, FiCheckCircle, FiDollarSign } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+const backend = import.meta.env.VITE_BACKEND_URI;
 
 const AdminDashboard = () => {
   const { token } = useAuthStore();
@@ -16,7 +17,7 @@ const AdminDashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/stats', {
+      const res = await axios.get(`${backend}/api/admin/stats`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStats(res.data);
@@ -75,7 +76,7 @@ const AdminDashboard = () => {
           />
           <StatCard 
             label="Total Revenue" 
-            value={`₹${stats.totalRevenue.toLocaleString()}`} 
+            value={`₹${stats.totalRevenue?.toLocaleString()}`} 
             icon={<FiDollarSign className="text-white" size={24} />}
             color="from-amber-500 to-amber-700"
           />

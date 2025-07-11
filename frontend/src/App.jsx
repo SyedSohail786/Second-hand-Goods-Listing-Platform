@@ -14,6 +14,7 @@ import ProductDetails from './pages/ProductDetails';
 import Home from './pages/Home';
 import Footer from './components/Footer';
 import AddProduct from './pages/AddProduct';
+import MyOrders from './pages/MyOrders';
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/my-products" element={<MyProducts/>} />
         <Route path="/edit-product/:id" element={<EditProduct />} />
         <Route path="/add-product" element={<AddProduct />} />
+        <Route path="/my-orders" element={<MyOrders />} />
 
 
         {/* Admin Routes */}

@@ -7,6 +7,7 @@ import { FiUpload, FiDollarSign, FiCalendar, FiPhone, FiMapPin, FiBox, FiX } fro
 import { toast } from 'react-hot-toast';
 import Select from 'react-select';
 import { useMediaQuery } from 'react-responsive';
+const backend = import.meta.env.VITE_BACKEND_URI;
 
 const AddProduct = () => {
   const { token } = useAuthStore();
@@ -71,7 +72,7 @@ const AddProduct = () => {
         formData.append('images', file);
       }
 
-      await axios.post('http://localhost:5000/api/products', formData, {
+      await axios.post(`${backend}api/products`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'

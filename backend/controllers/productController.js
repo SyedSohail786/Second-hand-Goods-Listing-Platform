@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const Product = require('../models/Product');
 
 exports.createProduct = async (req, res) => {
@@ -65,14 +66,15 @@ exports.getMyProducts = async (req, res) => {
 
 exports.buyProduct = async (req, res) => {
      const { name, phone, location } = req.body;
-
+     const {id} = req.user;
      try {
           const product = await Product.findById(req.params.id);
 
           if (!product) return res.status(404).json({ message: 'Product not found' });
+          console.log(product.buyer)
           if (product.buyer) return res.status(400).json({ message: 'Product already bought' });
-
           product.buyer = {
+               _id: id,
                name,
                phone,
                location,
@@ -158,11 +160,15 @@ exports.updateMyProduct = async (req, res) => {
      }
 };
 
-exports.getMyProducts = async (req, res) => {
-     try {
-          const products = await Product.find({ seller: req.user.id });
-          res.status(200).json(products);
-     } catch (err) {
-          res.status(500).json({ message: 'Error getting product', error: err.message });
-     }
+
+exports.getMyOrders = async (req, res) => {
+  try {
+    const userId = new mongoose.Types.ObjectId(req.user.id);
+     console.log("Here is id",req.user.id, userId)
+    const products = await Product.find({ 'buyer._id': userId }).populate('seller', 'name email');
+
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching your orders', error: err.message });
+  }
 };

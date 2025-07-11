@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 import Select from 'react-select';
 import { useMediaQuery } from 'react-responsive';
+const backend = import.meta.env.VITE_BACKEND_URI;
 
 const AdminProducts = () => {
   const { token } = useAuthStore();
@@ -47,7 +48,7 @@ const AdminProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/products', {
+      const res = await axios.get(`${backend}/api/admin/products`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setProducts(res.data);
@@ -94,10 +95,10 @@ const AdminProducts = () => {
 
     try {
       if (editId) {
-        await axios.put(`http://localhost:5000/api/admin/products/${editId}`, data, { headers });
+        await axios.put(`${backend}/api/admin/products/${editId}`, data, { headers });
         toast.success('Product updated successfully');
       } else {
-        await axios.post(`http://localhost:5000/api/admin/products`, data, { headers });
+        await axios.post(`${backend}/api/admin/products`, data, { headers });
         toast.success('Product added successfully');
       }
 
@@ -145,7 +146,7 @@ const AdminProducts = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin/products/${id}`, {
+        await axios.delete(`${backend}/api/admin/products/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success('Product deleted successfully');

@@ -6,18 +6,18 @@ const {
   createProduct,
   getAllProducts,
   getProductById,
-  getMyProducts,
   buyProduct,
   getBuyerInfo,
   deleteProduct,
-  updateMyProduct
+  updateMyProduct,
+  getMyOrders
 } = require('../controllers/productController');
 
 // ✅ POST new product (requires auth and images)
 router.post('/', auth, upload.array('images', 5), createProduct);
 
 // ✅ MUST COME BEFORE :id routes
-router.get('/my/products', auth, getMyProducts);
+router.get('/my/orders', auth, getMyOrders);
 
 // ✅ GET all products (public)
 router.get('/', getAllProducts);

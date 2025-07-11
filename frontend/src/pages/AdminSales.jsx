@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import useAuthStore from '../store/authStore';
-import { FiShoppingBag, FiUser, FiDollarSign, FiCalendar, FiMapPin, FiTruck } from 'react-icons/fi';
+import { FiShoppingBag, FiUser, FiDollarSign, FiCalendar, FiMapPin, FiX } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
+const backend = import.meta.env.VITE_BACKEND_URI;
 
 const AdminSales = () => {
   const { token } = useAuthStore();
@@ -14,13 +15,15 @@ const AdminSales = () => {
     const fetchSales = async () => {
       try {
         setIsLoading(true);
-        const res = await axios.get('http://localhost:5000/api/admin/products', {
+        const res = await axios.get(`${backend}/api/admin/products`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
-        // Filter only sold products
-        const sold = res.data.filter((p) => p.buyer !== null);
-        setSales(sold);
+        // Filter products with buyer details (sold products)
+        const soldProducts = res.data.filter((product) => 
+          product.buyer && Object.keys(product.buyer).length > 0
+        );
+        setSales(soldProducts);
       } catch (err) {
         console.error('Failed to fetch sales', err);
         toast.error('Failed to load sales data');
@@ -33,6 +36,7 @@ const AdminSales = () => {
   }, [token]);
 
   const formatDate = (dateString) => {
+    if (!dateString) return 'Not sold yet';
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
@@ -77,9 +81,15 @@ const AdminSales = () => {
                       <h3 className="text-lg font-semibold text-gray-800">{sale.productName}</h3>
                       <p className="text-sm text-gray-500">{sale.category}</p>
                     </div>
-                    <div className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-                      Sold
-                    </div>
+                    {sale.buyer ? (
+                      <div className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                        Sold
+                      </div>
+                    ) : (
+                      <div className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
+                        Available
+                      </div>
+                    )}
                   </div>
 
                   <div className="space-y-3">
@@ -88,13 +98,36 @@ const AdminSales = () => {
                       <span className="font-medium">₹{sale.price}</span>
                     </div>
 
-                    <div className="flex items-start text-gray-700">
-                      <FiUser className="mr-2 text-indigo-500 mt-1" />
-                      <div>
-                        <p className="font-medium">Buyer: {sale.buyer?.name}</p>
-                        <p className="text-sm text-gray-500">{sale.buyer?.email}</p>
+                    {sale.buyer ? (
+                      <>
+                        <div className="flex items-start text-gray-700">
+                          <FiUser className="mr-2 text-indigo-500 mt-1" />
+                          <div>
+                            <p className="font-medium">Buyer: {sale.buyer.name || 'Not available'}</p>
+                            <p className="text-sm text-gray-500">{sale.buyer.phone || 'No contact'}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start text-gray-700">
+                          <FiMapPin className="mr-2 text-indigo-500 mt-1" />
+                          <div>
+                            <p className="font-medium">Delivery Address</p>
+                            <p className="text-sm text-gray-500">{sale.address || 'Not specified'}</p>
+                            {sale.city && <p className="text-sm text-gray-500">{sale.city}</p>}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center text-gray-700">
+                          <FiCalendar className="mr-2 text-indigo-500" />
+                          <span>Sold on {formatDate(sale.buyer.buyDate)}</span>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex items-center text-gray-500">
+                        <FiX className="mr-2" />
+                        <span>This product is not sold yet</span>
                       </div>
-                    </div>
+                    )}
 
                     <div className="flex items-start text-gray-700">
                       <FiUser className="mr-2 text-indigo-500 mt-1" />
@@ -103,33 +136,7 @@ const AdminSales = () => {
                         <p className="text-sm text-gray-500">{sale.seller?.email}</p>
                       </div>
                     </div>
-
-                    {sale.address && (
-                      <div className="flex items-start text-gray-700">
-                        <FiMapPin className="mr-2 text-indigo-500 mt-1" />
-                        <div>
-                          <p className="font-medium">Delivery Address</p>
-                          <p className="text-sm text-gray-500">{sale.address}</p>
-                          {sale.city && <p className="text-sm text-gray-500">{sale.city}</p>}
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="flex items-center text-gray-700">
-                      <FiCalendar className="mr-2 text-indigo-500" />
-                      <span>Sold on {formatDate(sale.buyer?.buyDate)}</span>
-                    </div>
                   </div>
-                </div>
-
-                <div className="bg-gray-50 px-5 py-3 flex justify-between items-center border-t border-gray-200">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <FiTruck className="mr-2" />
-                    <span>Order #{(sale._id || '').slice(-6).toUpperCase()}</span>
-                  </div>
-                  <button className="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
-                    View Details
-                  </button>
                 </div>
               </motion.div>
             ))}

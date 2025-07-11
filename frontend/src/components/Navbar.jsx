@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../store/authStore';
-import { FiHome, FiUser, FiLogOut, FiPlusSquare, FiShoppingBag, FiUsers, FiPieChart, FiGrid, FiMenu, FiX } from 'react-icons/fi';
+import { FiHome, FiUser, FiLogOut, FiPlusSquare, FiShoppingBag, FiUsers, FiPieChart, FiGrid, FiMenu, FiX, FiList } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
@@ -150,6 +150,7 @@ function renderNavItems({ user, admin, handleLogout, isMobile, closeMenu }) {
     ? [
         { to: '/', icon: <FiHome />, text: 'Home' },
         { to: '/my-products', icon: <FiShoppingBag />, text: 'My Products' },
+        { to: '/my-orders', icon: <FiList />, text: 'My Orders'},
         { to: '/add-product', icon: <FiPlusSquare />, text: 'List Product' },
         { to: '/profile', icon: <FiUser />, text: 'Profile' },
         { action: handleLogout, icon: <FiLogOut />, text: 'Logout' },
