@@ -36,7 +36,7 @@ const MyProducts = () => {
   }, []);
 
   return (
-    <div className="p-6">
+    <div className="p-6 text-center items-center justify-center">
       <h2 className="text-2xl font-bold text-purple-800 mb-4">My Listed Products</h2>
 
       {products.length === 0 ? (

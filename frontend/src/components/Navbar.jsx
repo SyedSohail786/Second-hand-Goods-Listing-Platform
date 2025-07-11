@@ -65,8 +65,8 @@ const Navbar = () => {
         className={`${COLORS.primary} ${COLORS.text} ${scrolled ? 'shadow-md' : ''} fixed w-full z-50 border-b ${COLORS.border}`}
         style={{ height: '64px' }} 
       >
-        <div className="max-w-7xl mx-auto px-6 h-full"> {/* Added h-full */}
-          <div className="flex justify-between items-center h-full"> {/* Changed to h-full */}
+        <div className="max-w-7xl mx-auto px-6 h-full">
+          <div className="flex justify-between items-center h-full">
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Link 
                 to="/" 
@@ -78,7 +78,7 @@ const Navbar = () => {
             </motion.div>
 
             {!isMobile ? (
-              <div className="flex space-x-6">
+              <div className="flex space-x-2"> {/* Reduced space between items */}
                 {renderNavItems({ user, admin, handleLogout, isMobile: false })}
               </div>
             ) : (
@@ -172,7 +172,7 @@ function renderNavItems({ user, admin, handleLogout, isMobile, closeMenu }) {
         <Link
           to={item.to}
           className={`flex items-center space-x-1 ${COLORS.text} ${
-            isMobile ? 'w-full px-4 py-3 hover:bg-gray-100' : 'px-3 py-2 hover:bg-gray-50'
+            isMobile ? 'w-full px-4 py-3 hover:bg-gray-100' : 'px-2 py-2 hover:bg-gray-50 text-sm'
           } rounded-md ${COLORS.textHover} transition-colors`}
           onClick={closeMenu}
         >
@@ -186,7 +186,7 @@ function renderNavItems({ user, admin, handleLogout, isMobile, closeMenu }) {
             if (isMobile) closeMenu();
           }}
           className={`flex items-center space-x-3 ${COLORS.text} ${
-            isMobile ? 'w-full px-4 py-3 hover:bg-gray-100' : 'px-3 py-2 hover:bg-gray-50'
+            isMobile ? 'w-full px-4 py-3 hover:bg-gray-100' : 'px-2 py-2 hover:bg-gray-50 text-sm'
           } rounded-md ${COLORS.textHover} transition-colors`}
           whileHover={{ backgroundColor: 'rgba(59, 130, 246, 0.1)' }}
           whileTap={{ scale: 0.98 }}

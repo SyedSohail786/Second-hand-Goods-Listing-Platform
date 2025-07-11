@@ -7,6 +7,7 @@ import { FiUpload, FiDollarSign, FiCalendar, FiPhone, FiMapPin, FiBox, FiX } fro
 import { toast } from 'react-hot-toast';
 import Select from 'react-select';
 import { useMediaQuery } from 'react-responsive';
+import MyProducts from './MyProducts';
 const backend = import.meta.env.VITE_BACKEND_URI;
 
 const AddProduct = () => {
@@ -410,6 +411,8 @@ const AddProduct = () => {
           </form>
         </motion.div>
       </div>
+
+      <MyProducts/>
     </motion.div>
   );
 };
