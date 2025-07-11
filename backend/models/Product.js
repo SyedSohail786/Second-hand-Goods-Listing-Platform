@@ -1,12 +1,5 @@
 const mongoose = require('mongoose');
 
-const buyInfoSchema = new mongoose.Schema({
-  name: String,
-  phone: String,
-  location: String,
-  buyDate: { type: Date, default: Date.now }
-});
-
 const productSchema = new mongoose.Schema({
   productName: { type: String, required: true },
   description: String,
@@ -14,9 +7,16 @@ const productSchema = new mongoose.Schema({
   address: String,
   mobile: String,
   purchaseDate: Date,
+  city: { type: String, required: true },           // ✅ New
+  category: { type: String, required: true },       // ✅ New
   images: [String],
-  seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  buyer: buyInfoSchema
+  seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  buyer: {
+    name: String,
+    phone: String,
+    location: String,
+    buyDate: Date
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Product', productSchema);

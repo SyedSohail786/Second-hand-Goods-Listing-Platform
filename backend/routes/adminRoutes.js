@@ -20,10 +20,19 @@ router.post('/login', async (req, res) => {
       { expiresIn: '7d' }
     );
 
-    res.status(200).json({ token });
+    // ✅ send back token + admin data
+    res.status(200).json({
+      token,
+      admin: {
+        _id: admin._id,
+        email: admin.email,
+        role: 'admin'
+      }
+    });
   } catch (err) {
     res.status(500).json({ message: 'Admin login failed' });
   }
 });
+
 
 module.exports = router;

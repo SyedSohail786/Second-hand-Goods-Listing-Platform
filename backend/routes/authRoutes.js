@@ -31,15 +31,27 @@ router.post('/login', async (req, res) => {
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
     const token = jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
+      { id: user._id, isAdmin: false },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
-    res.status(200).json({ token });
+    // ✅ send back token + user data
+    res.status(200).json({
+      token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        profilePicture: user.profilePicture || '',
+        role: 'user'
+      }
+    });
   } catch (err) {
     res.status(500).json({ message: 'Login failed' });
   }
 });
+
 
 module.exports = router;
