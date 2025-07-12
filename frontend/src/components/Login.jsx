@@ -14,17 +14,17 @@ const Login = () => {
   const { loginUser } = useAuthStore();
   const navigate = useNavigate();
 
-  useEffect(()=>{
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    },[]);
-    
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     try {
       const res = await axios.post(`${baseurl}/api/auth/login`, { email, password });
       loginUser(res.data.user, res.data.token);
@@ -121,8 +121,8 @@ const Login = () => {
           <div className="mt-6 text-center">
             <p className="text-gray-600">
               Don't have an account?{' '}
-              <Link 
-                to="/register" 
+              <Link
+                to="/register"
                 className="font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
               >
                 Register here

@@ -49,7 +49,7 @@ const Navbar = () => {
     setMenuOpen(false);
   };
 
-  
+
   useEffect(() => {
     const unlisten = () => {
       if (menuOpen) setMenuOpen(false);
@@ -64,13 +64,13 @@ const Navbar = () => {
         animate={{ y: 0 }}
         transition={{ type: 'spring', damping: 25 }}
         className={`${COLORS.primary} ${COLORS.text} ${scrolled ? 'shadow-md' : ''} fixed w-full z-50 border-b ${COLORS.border}`}
-        style={{ height: '64px' }} 
+        style={{ height: '64px' }}
       >
         <div className="max-w-7xl mx-auto px-6 h-full">
           <div className="flex justify-between items-center h-full">
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Link 
-                to={admin? "/dashboard": "/"} 
+              <Link
+                to={admin ? "/dashboard" : "/"}
                 className={`text-xl font-bold ${COLORS.textHover} transition-colors`}
                 onClick={() => setMenuOpen(false)}
               >
@@ -118,10 +118,10 @@ const Navbar = () => {
                 className={`${COLORS.secondary} fixed top-0 right-0 w-64 h-full z-50 shadow-xl border-l ${COLORS.border}`}
               >
                 <div className="flex flex-col space-y-1 p-4">
-                  {renderNavItems({ 
-                    user, 
-                    admin, 
-                    handleLogout, 
+                  {renderNavItems({
+                    user,
+                    admin,
+                    handleLogout,
                     isMobile: true,
                     closeMenu: () => setMenuOpen(false)
                   })}
@@ -141,21 +141,21 @@ const Navbar = () => {
 function renderNavItems({ user, admin, handleLogout, isMobile, closeMenu }) {
   const items = admin
     ? [
-        { to: '/dashboard', icon: <FiGrid />, text: 'Dashboard' },
-        { to: '/admin/users', icon: <FiUsers />, text: 'Users' },
-        { to: '/admin/products', icon: <FiShoppingBag />, text: 'Products' },
-        { to: '/admin/sales', icon: <FiPieChart />, text: 'Sales' },
-        { action: handleLogout, icon: <FiLogOut />, text: 'Logout' },
-      ]
+      { to: '/dashboard', icon: <FiGrid />, text: 'Dashboard' },
+      { to: '/admin/users', icon: <FiUsers />, text: 'Users' },
+      { to: '/admin/products', icon: <FiShoppingBag />, text: 'Products' },
+      { to: '/admin/sales', icon: <FiPieChart />, text: 'Sales' },
+      { action: handleLogout, icon: <FiLogOut />, text: 'Logout' },
+    ]
     : user
-    ? [
+      ? [
         { to: '/', icon: <FiHome />, text: 'Home' },
-        { to: '/my-orders', icon: <FiList />, text: 'My Orders'},
+        { to: '/my-orders', icon: <FiList />, text: 'My Orders' },
         { to: '/add-product', icon: <FiPlusSquare />, text: 'List' },
         { to: '/profile', icon: <FiUser />, text: 'Profile' },
         { action: handleLogout, icon: <FiLogOut />, text: 'Logout' },
       ]
-    : [
+      : [
         { to: '/', icon: <FiHome />, text: 'Home' },
         { to: '/login', icon: <FiUser />, text: 'Login' },
         { to: '/admin-login', icon: <FiUser />, text: 'Admin Login' },
@@ -171,9 +171,8 @@ function renderNavItems({ user, admin, handleLogout, isMobile, closeMenu }) {
       {item.to ? (
         <Link
           to={item.to}
-          className={`flex items-center space-x-1 ${COLORS.text} ${
-            isMobile ? 'w-full px-4 py-3 hover:bg-gray-100' : 'px-2 py-2 hover:bg-gray-50 text-sm'
-          } rounded-md ${COLORS.textHover} transition-colors`}
+          className={`flex items-center space-x-1 ${COLORS.text} ${isMobile ? 'w-full px-4 py-3 hover:bg-gray-100' : 'px-2 py-2 hover:bg-gray-50 text-sm'
+            } rounded-md ${COLORS.textHover} transition-colors`}
           onClick={closeMenu}
         >
           <span className="text-blue-500">{item.icon}</span>
@@ -185,9 +184,8 @@ function renderNavItems({ user, admin, handleLogout, isMobile, closeMenu }) {
             item.action();
             if (isMobile) closeMenu();
           }}
-          className={`flex items-center space-x-3 ${COLORS.text} ${
-            isMobile ? 'w-full px-4 py-3 hover:bg-gray-100' : 'px-2 py-2 hover:bg-gray-50 text-sm'
-          } rounded-md ${COLORS.textHover} transition-colors`}
+          className={`flex items-center space-x-3 ${COLORS.text} ${isMobile ? 'w-full px-4 py-3 hover:bg-gray-100' : 'px-2 py-2 hover:bg-gray-50 text-sm'
+            } rounded-md ${COLORS.textHover} transition-colors`}
           whileHover={{ backgroundColor: 'rgba(59, 130, 246, 0.1)' }}
           whileTap={{ scale: 0.98 }}
         >

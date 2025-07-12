@@ -7,11 +7,11 @@ import { toast } from 'react-hot-toast';
 const backend = import.meta.env.VITE_BACKEND_URI;
 
 const Register = () => {
-  const [form, setForm] = useState({ 
-    name: '', 
-    email: '', 
-    phone: '', 
-    password: '' 
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    password: ''
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -20,17 +20,17 @@ const Register = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  useEffect(()=>{
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    },[]);
-    
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     try {
       await axios.post(`${backend}/api/auth/register`, form);
       toast.success('Registration successful! Please log in.', {
@@ -152,8 +152,8 @@ const Register = () => {
           <div className="mt-6 text-center">
             <p className="text-gray-600">
               Already have an account?{' '}
-              <Link 
-                to="/login" 
+              <Link
+                to="/login"
                 className="font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
               >
                 Login here
