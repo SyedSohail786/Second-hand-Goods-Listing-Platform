@@ -5,6 +5,7 @@ import { FiShoppingCart, FiDollarSign, FiUser, FiCalendar, FiMapPin, FiPackage }
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import { useMediaQuery } from 'react-responsive';
+const backend = import.meta.env.VITE_BACKEND_URI;
 
 const MyOrders = () => {
   const { token } = useAuthStore();
@@ -12,17 +13,17 @@ const MyOrders = () => {
   const [loading, setLoading] = useState(true);
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  },[]);
-  
+  }, []);
+
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:5000/api/products/my/orders', {
+      const res = await axios.get(`${backend}/api/products/my/orders`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setOrders(res.data);
@@ -77,7 +78,7 @@ const MyOrders = () => {
               >
                 <div className="relative h-48 bg-gray-100">
                   <img
-                    src={`http://localhost:5000${order.images[0]}`}
+                    src={`${backend}${order.images[0]}`}
                     alt={order.productName}
                     className="absolute w-full h-full object-contain p-4"
                   />
@@ -86,7 +87,7 @@ const MyOrders = () => {
                   <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
                     {order.productName}
                   </h3>
-                  
+
                   <div className="flex items-center mb-3">
                     <FiDollarSign className="text-indigo-600 mr-1" />
                     <span className="text-lg font-semibold text-indigo-600">₹{order.price}</span>
@@ -115,11 +116,10 @@ const MyOrders = () => {
 
                   {order.status && (
                     <div className="mt-3">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        order.status === 'delivered' ? 'bg-green-100 text-green-800' :
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${order.status === 'delivered' ? 'bg-green-100 text-green-800' :
                         order.status === 'shipped' ? 'bg-blue-100 text-blue-800' :
-                        'bg-yellow-100 text-yellow-800'
-                      }`}>
+                          'bg-yellow-100 text-yellow-800'
+                        }`}>
                         {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                       </span>
                     </div>

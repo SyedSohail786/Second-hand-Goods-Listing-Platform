@@ -5,6 +5,7 @@ import { FiUser, FiPhone, FiMail, FiCalendar, FiUpload, FiSave } from 'react-ico
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import { useMediaQuery } from 'react-responsive';
+const backend = import.meta.env.VITE_BACKEND_URI;
 
 const UserProfile = () => {
   const { token, user } = useAuthStore();
@@ -15,16 +16,16 @@ const UserProfile = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 640 });
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  },[]);
-  
+  }, []);
+
   const fetchProfile = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/users/profile', {
+      const res = await axios.get(`${backend}/api/users/profile`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setProfile(res.data);
@@ -39,14 +40,14 @@ const UserProfile = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       const formData = new FormData();
       formData.append('name', name);
       formData.append('phone', phone);
       if (file) formData.append('profilePicture', file);
 
-      await axios.put('http://localhost:5000/api/users/profile', formData, {
+      await axios.put(`${backend}/api/users/profile`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -107,16 +108,16 @@ const UserProfile = () => {
           <div className="bg-indigo-600 p-6 text-center text-white">
             <div className="relative inline-block">
               <img
-                src={imagePreview || `http://localhost:5000${profile.profilePicture || '/uploads/default.jpg'}`}
+                src={imagePreview || `${backend}${profile.profilePicture || '/uploads/default.jpg'}`}
                 alt="Profile"
                 className="w-24 h-24 rounded-full border-4 border-white object-cover mx-auto"
               />
               <label className="absolute bottom-0 right-0 bg-white rounded-full p-1 cursor-pointer shadow-md">
                 <FiUpload className="text-indigo-600" />
-                <input 
-                  type="file" 
-                  onChange={(e) => setFile(e.target.files[0])} 
-                  className="hidden" 
+                <input
+                  type="file"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  className="hidden"
                   accept="image/*"
                 />
               </label>
@@ -183,9 +184,8 @@ const UserProfile = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 disabled={isSubmitting}
-                className={`px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition flex items-center justify-center ${
-                  isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                }`}
+                className={`px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition flex items-center justify-center ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                  }`}
               >
                 {isSubmitting ? (
                   <>

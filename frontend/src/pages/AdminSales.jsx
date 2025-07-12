@@ -12,14 +12,14 @@ const AdminSales = () => {
   const [isLoading, setIsLoading] = useState(true);
 
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  },[]);
+  }, []);
 
-  
+
   useEffect(() => {
     const fetchSales = async () => {
       try {
@@ -29,7 +29,7 @@ const AdminSales = () => {
         });
 
         // Filter products with buyer details (sold products)
-        const soldProducts = res.data.filter((product) => 
+        const soldProducts = res.data.filter((product) =>
           product.buyer && Object.keys(product.buyer).length > 0
         );
         setSales(soldProducts);

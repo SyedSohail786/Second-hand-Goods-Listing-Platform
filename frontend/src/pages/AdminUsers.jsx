@@ -4,15 +4,16 @@ import useAuthStore from '../store/authStore';
 import { FiUser, FiMail, FiPhone, FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
+const backend = import.meta.env.VITE_BACKEND_URI;
 
 const AdminUsers = () => {
   const { token } = useAuthStore();
   const [users, setUsers] = useState([]);
-  const [form, setForm] = useState({ 
-    name: '', 
-    email: '', 
-    phone: '', 
-    password: '' 
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    password: ''
   });
   const [editId, setEditId] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -22,17 +23,17 @@ const AdminUsers = () => {
     Authorization: `Bearer ${token}`,
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  },[]);
-  
+  }, []);
+
   const fetchUsers = async () => {
     try {
       setIsLoading(true);
-      const res = await axios.get('http://localhost:5000/api/admin/users', { headers });
+      const res = await axios.get(`${backend}/api/admin/users`, { headers });
       setUsers(res.data);
     } catch (err) {
       toast.error('Failed to fetch users');
@@ -51,10 +52,10 @@ const AdminUsers = () => {
     e.preventDefault();
     try {
       if (editId) {
-        await axios.put(`http://localhost:5000/api/admin/users/${editId}`, form, { headers });
+        await axios.put(`${backend}/api/admin/users/${editId}`, form, { headers });
         toast.success('User updated successfully');
       } else {
-        await axios.post('http://localhost:5000/api/admin/users', form, { headers });
+        await axios.post(`${backend}/api/admin/users`, form, { headers });
         toast.success('User created successfully');
       }
       resetForm();
@@ -66,11 +67,11 @@ const AdminUsers = () => {
   };
 
   const handleEdit = (user) => {
-    setForm({ 
-      name: user.name, 
-      email: user.email, 
-      phone: user.phone, 
-      password: '' 
+    setForm({
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      password: ''
     });
     setEditId(user._id);
     setIsFormOpen(true);
@@ -79,7 +80,7 @@ const AdminUsers = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin/users/${id}`, { headers });
+        await axios.delete(`${backend}/api/admin/users/${id}`, { headers });
         toast.success('User deleted successfully');
         fetchUsers();
       } catch (err) {

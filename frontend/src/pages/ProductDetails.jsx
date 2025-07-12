@@ -6,6 +6,7 @@ import { FiArrowLeft, FiDollarSign, FiCalendar, FiUser, FiMapPin, FiTag, FiPhone
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import { useMediaQuery } from 'react-responsive';
+const backend = import.meta.env.VITE_BACKEND_URI;
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -23,17 +24,17 @@ const ProductDetails = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mainImageIndex, setMainImageIndex] = useState(0);
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  },[]);
-  
+  }, []);
+
   const fetchProduct = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+      const res = await axios.get(`${backend}/api/products/${id}`);
       setProduct(res.data);
     } catch (err) {
       console.error('Failed to load product:', err);
@@ -53,7 +54,7 @@ const ProductDetails = () => {
 
     setIsSubmitting(true);
     try {
-      await axios.post(`http://localhost:5000/api/products/${id}/buy`, buyForm, {
+      await axios.post(`${backend}/api/products/${id}/buy`, buyForm, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Product purchased successfully!');
@@ -107,7 +108,7 @@ const ProductDetails = () => {
               {/* Main Large Image */}
               <div className="mb-4 bg-gray-100 rounded-lg overflow-hidden">
                 <img
-                  src={`http://localhost:5000${product.images[mainImageIndex]}`}
+                  src={`${backend}${product.images[mainImageIndex]}`}
                   alt="Main product"
                   className="w-full h-80 object-contain mx-auto"
                 />
@@ -123,7 +124,7 @@ const ProductDetails = () => {
                       className={`rounded-md overflow-hidden border-2 ${mainImageIndex === index ? 'border-indigo-500' : 'border-transparent'}`}
                     >
                       <img
-                        src={`http://localhost:5000${img}`}
+                        src={`${backend}${img}`}
                         alt={`Thumbnail ${index + 1}`}
                         className="w-full h-20 object-cover"
                       />
@@ -136,7 +137,7 @@ const ProductDetails = () => {
             {/* Product Info */}
             <div>
               <h1 className="text-2xl font-bold text-gray-900 mb-2">{product.productName}</h1>
-              
+
               <div className="flex items-center mb-4">
                 <span className="text-xl font-bold text-indigo-600">₹{product.price}</span>
               </div>

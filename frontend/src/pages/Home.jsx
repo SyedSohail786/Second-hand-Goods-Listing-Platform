@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { formatINR } from '../utils/formatINR';
 import { FiCalendar } from 'react-icons/fi';
 import Select from 'react-select';
+const backend = import.meta.env.VITE_BACKEND_URI;
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -38,7 +39,7 @@ const Home = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/products');
+      const res = await axios.get(`${backend}/api/products`);
       setProducts(res.data);
       setDisplayed(res.data);
     } catch (err) {
@@ -138,7 +139,7 @@ const Home = () => {
               >
                 <div className="h-48 bg-gray-100 overflow-hidden">
                   <img
-                    src={`http://localhost:5000${product.images[0]}`}
+                    src={`${backend}${product.images[0]}`}
                     alt={product.productName}
                     className="w-full h-full object-contain"
                   />
