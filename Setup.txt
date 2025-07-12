@@ -1,6 +1,4 @@
-step 1: just go to google gemini page and get a gemini api
-step 2: copy that 
-step 3: go to backend folder/ .env file and paste the (for localhost)
+step 1: go to backend folder/ .env file and paste the (for localhost)
 
 ```
 PORT=5000
@@ -8,7 +6,7 @@ MONGO_URI=mongodb://localhost:27017/secondhand-platform
 JWT_SECRET=yourVeryStrongSecretKey
 CLIENT_URL=http://localhost:5173
 ```
-step 4: go to frontend folder/ .env file and paste the (for localhost)
+step 2: go to frontend folder/ .env file and paste the (for localhost)
 
 ```
 VITE_BACKEND_URI="http://localhost:5000"
