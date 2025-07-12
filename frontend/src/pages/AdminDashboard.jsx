@@ -15,13 +15,13 @@ const AdminDashboard = () => {
     totalRevenue: 0
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  },[]);
-  
+  }, []);
+
   const fetchStats = async () => {
     try {
       const res = await axios.get(`${backend}/api/admin/stats`, {
@@ -63,27 +63,27 @@ const AdminDashboard = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-          <StatCard 
-            label="Total Users" 
-            value={stats.totalUsers} 
+          <StatCard
+            label="Total Users"
+            value={stats.totalUsers}
             icon={<FiUsers className="text-white" size={24} />}
             color="from-purple-600 to-purple-800"
           />
-          <StatCard 
-            label="Total Products" 
-            value={stats.totalProducts} 
+          <StatCard
+            label="Total Products"
+            value={stats.totalProducts}
             icon={<FiBox className="text-white" size={24} />}
             color="from-blue-600 to-blue-800"
           />
-          <StatCard 
-            label="Sold Products" 
-            value={stats.totalSold} 
+          <StatCard
+            label="Sold Products"
+            value={stats.totalSold}
             icon={<FiCheckCircle className="text-white" size={24} />}
             color="from-green-600 to-green-800"
           />
-          <StatCard 
-            label="Total Revenue" 
-            value={`₹${stats.totalRevenue?.toLocaleString()}`} 
+          <StatCard
+            label="Total Revenue"
+            value={`₹${stats.totalRevenue?.toLocaleString()}`}
             icon={<FiDollarSign className="text-white" size={24} />}
             color="from-amber-500 to-amber-700"
           />
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
         {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Sales Distribution */}
-          <motion.div 
+          <motion.div
             whileHover={{ y: -5 }}
             className="bg-white rounded-xl shadow-lg p-6 border border-gray-200"
           >
@@ -104,9 +104,9 @@ const AdminDashboard = () => {
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  <Bar 
-                    dataKey="value" 
-                    fill="#7e22ce" 
+                  <Bar
+                    dataKey="value"
+                    fill="#7e22ce"
                     radius={[4, 4, 0, 0]}
                     barSize={60}
                   />
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
           </motion.div>
 
           {/* Monthly Sales Trend */}
-          <motion.div 
+          <motion.div
             whileHover={{ y: -5 }}
             className="bg-white rounded-xl shadow-lg p-6 border border-gray-200"
           >
@@ -140,18 +140,18 @@ const AdminDashboard = () => {
                   <YAxis yAxisId="right" orientation="right" />
                   <Tooltip />
                   <Legend />
-                  <Bar 
+                  <Bar
                     yAxisId="left"
-                    dataKey="sales" 
+                    dataKey="sales"
                     name="Products Sold"
-                    fill="#4f46e5" 
+                    fill="#4f46e5"
                     radius={[4, 4, 0, 0]}
                   />
-                  <Bar 
+                  <Bar
                     yAxisId="right"
-                    dataKey="revenue" 
+                    dataKey="revenue"
                     name="Revenue (₹)"
-                    fill="#10b981" 
+                    fill="#10b981"
                     radius={[4, 4, 0, 0]}
                   />
                 </BarChart>

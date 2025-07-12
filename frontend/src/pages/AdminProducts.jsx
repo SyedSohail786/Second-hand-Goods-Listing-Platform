@@ -24,14 +24,14 @@ const AdminProducts = () => {
     images: []
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  },[]);
+  }, []);
 
-  
+
   const [editId, setEditId] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const isDesktop = useMediaQuery({ minWidth: 1024 });
@@ -50,7 +50,7 @@ const AdminProducts = () => {
   ];
 
   const imagePreviews = useMemo(() => {
-    return form.images.length > 0 
+    return form.images.length > 0
       ? Array.from(form.images).map(file => URL.createObjectURL(file))
       : [];
   }, [form.images]);
@@ -194,8 +194,8 @@ const AdminProducts = () => {
                     <h3 className="text-xl font-semibold text-gray-800">
                       {editId ? 'Edit Product' : 'Add New Product'}
                     </h3>
-                    <button 
-                      onClick={resetForm} 
+                    <button
+                      onClick={resetForm}
                       className="text-gray-500 hover:text-gray-700 transition-colors"
                     >
                       <FiX size={24} />
@@ -302,14 +302,14 @@ const AdminProducts = () => {
                             onChange={handleFileChange}
                             className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                           />
-                          
+
                           {/* Image Previews */}
                           {imagePreviews.length > 0 && (
                             <div className={`grid ${isDesktop ? 'grid-cols-4' : 'grid-cols-3'} gap-2 mt-2`}>
                               {imagePreviews.map((preview, index) => (
                                 <div key={index} className="relative group">
-                                  <img 
-                                    src={preview} 
+                                  <img
+                                    src={preview}
                                     alt={`Preview ${index}`}
                                     className={`w-full ${isDesktop ? 'h-28' : 'h-20'} object-cover rounded-lg border border-gray-200`}
                                   />

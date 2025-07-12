@@ -15,12 +15,12 @@ const AddProduct = () => {
   const [showProducts, setShowProducts] = useState(false);
 
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  },[]);
+  }, []);
 
   const [form, setForm] = useState({
     productName: '',
@@ -104,7 +104,7 @@ const AddProduct = () => {
           secondary: '#4f46e5',
         },
       });
-      
+
       setForm({
         productName: '',
         description: '',
@@ -279,13 +279,13 @@ const AddProduct = () => {
                         className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                         required
                       />
-                      
+
                       {imagePreviews.length > 0 && (
                         <div className="grid grid-cols-3 gap-2 mt-2">
                           {imagePreviews.map((preview, index) => (
                             <div key={index} className="relative group">
-                              <img 
-                                src={preview} 
+                              <img
+                                src={preview}
                                 alt={`Preview ${index}`}
                                 className="w-full h-32 object-cover rounded-lg border border-gray-200"
                               />
@@ -415,13 +415,13 @@ const AddProduct = () => {
                       className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                       required
                     />
-                    
+
                     {imagePreviews.length > 0 && (
                       <div className="grid grid-cols-3 gap-2 mt-2">
                         {imagePreviews.map((preview, index) => (
                           <div key={index} className="relative group">
-                            <img 
-                              src={preview} 
+                            <img
+                              src={preview}
                               alt={`Preview ${index}`}
                               className="w-full h-20 object-cover rounded-lg border border-gray-200"
                             />
