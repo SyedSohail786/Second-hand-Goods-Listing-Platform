@@ -11,6 +11,15 @@ const AdminSales = () => {
   const [sales, setSales] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+
+  useEffect(()=>{
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  },[]);
+
+  
   useEffect(() => {
     const fetchSales = async () => {
       try {

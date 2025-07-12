@@ -22,6 +22,13 @@ const AdminUsers = () => {
     Authorization: `Bearer ${token}`,
   };
 
+  useEffect(()=>{
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  },[]);
+  
   const fetchUsers = async () => {
     try {
       setIsLoading(true);

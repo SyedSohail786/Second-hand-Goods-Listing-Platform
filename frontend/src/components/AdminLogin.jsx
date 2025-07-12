@@ -14,10 +14,18 @@ const AdminLogin = () => {
   const { loginAdmin } = useAuthStore();
   const navigate = useNavigate();
 
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     try {
       const res = await axios.post(`${backend}/api/admin/login`, { email, password });
       loginAdmin(res.data.admin, res.data.token);

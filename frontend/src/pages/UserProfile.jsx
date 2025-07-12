@@ -15,6 +15,13 @@ const UserProfile = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 640 });
 
+  useEffect(()=>{
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  },[]);
+  
   const fetchProfile = async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/users/profile', {

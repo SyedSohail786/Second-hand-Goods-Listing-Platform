@@ -19,6 +19,13 @@ const Home = () => {
     { value: 'high-to-low', label: 'Price: High to Low' }
   ];
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
+
   // Category options for React Select
   const categoryOptions = [
     { value: 'all', label: 'All Categories' },
@@ -72,6 +79,10 @@ const Home = () => {
 
   useEffect(() => {
     applyFilters();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    }, []);
   }, [sort, category, products]);
 
   return (
@@ -79,7 +90,7 @@ const Home = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
           <h2 className="text-2xl font-bold text-indigo-800">Browse Products</h2>
-          
+
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             {/* React Select for Sort */}
             <div className="w-full sm:w-48">
@@ -121,8 +132,8 @@ const Home = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {displayed.map((product) => (
-              <div 
-                key={product._id} 
+              <div
+                key={product._id}
                 className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200"
               >
                 <div className="h-48 bg-gray-100 overflow-hidden">

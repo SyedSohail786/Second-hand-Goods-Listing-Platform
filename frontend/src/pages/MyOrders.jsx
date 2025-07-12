@@ -12,6 +12,13 @@ const MyOrders = () => {
   const [loading, setLoading] = useState(true);
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
+  useEffect(()=>{
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  },[]);
+  
   const fetchOrders = async () => {
     try {
       setLoading(true);

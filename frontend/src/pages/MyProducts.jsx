@@ -16,6 +16,13 @@ const MyProducts = () => {
     const [deleteLoading, setDeleteLoading] = useState(null);
     const isMobile = useMediaQuery({ maxWidth: 640 });
 
+    useEffect(()=>{
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  },[]);
+  
     const fetchMyProducts = async () => {
         try {
             setLoading(true);

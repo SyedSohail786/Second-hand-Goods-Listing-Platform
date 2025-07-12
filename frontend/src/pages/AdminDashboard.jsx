@@ -15,6 +15,13 @@ const AdminDashboard = () => {
     totalRevenue: 0
   });
 
+  useEffect(()=>{
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  },[]);
+  
   const fetchStats = async () => {
     try {
       const res = await axios.get(`${backend}/api/admin/stats`, {

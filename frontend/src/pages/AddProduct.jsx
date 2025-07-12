@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import axios from 'axios';
 import useAuthStore from '../store/authStore';
 import { motion } from 'framer-motion';
@@ -13,6 +13,14 @@ const AddProduct = () => {
   const { token } = useAuthStore();
   const isDesktop = useMediaQuery({ minWidth: 1024 });
   const [showProducts, setShowProducts] = useState(false);
+
+
+  useEffect(()=>{
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  },[]);
 
   const [form, setForm] = useState({
     productName: '',

@@ -49,6 +49,7 @@ const Navbar = () => {
     setMenuOpen(false);
   };
 
+  
   useEffect(() => {
     const unlisten = () => {
       if (menuOpen) setMenuOpen(false);

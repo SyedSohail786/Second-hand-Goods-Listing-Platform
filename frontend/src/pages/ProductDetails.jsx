@@ -23,6 +23,13 @@ const ProductDetails = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mainImageIndex, setMainImageIndex] = useState(0);
 
+  useEffect(()=>{
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  },[]);
+  
   const fetchProduct = async () => {
     try {
       setLoading(true);

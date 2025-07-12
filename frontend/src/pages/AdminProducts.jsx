@@ -23,6 +23,15 @@ const AdminProducts = () => {
     sellerId: '',
     images: []
   });
+
+  useEffect(()=>{
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  },[]);
+
+  
   const [editId, setEditId] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const isDesktop = useMediaQuery({ minWidth: 1024 });

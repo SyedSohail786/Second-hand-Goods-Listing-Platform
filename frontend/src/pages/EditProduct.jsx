@@ -34,6 +34,14 @@ const EditProduct = () => {
         'Electronics', 'Furniture', 'Books', 'Clothing', 'Others'
     ];
 
+    useEffect(()=>{
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  },[]);
+  
+
     const fetchProduct = async () => {
         try {
             const res = await axios.get(`http://localhost:5000/api/products/${id}`);

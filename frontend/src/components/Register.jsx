@@ -20,6 +20,13 @@ const Register = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  useEffect(()=>{
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    },[]);
+    
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
