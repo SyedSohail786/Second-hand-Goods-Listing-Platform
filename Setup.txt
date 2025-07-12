@@ -1,0 +1,30 @@
+step 1: just go to google gemini page and get a gemini api
+step 2: copy that 
+step 3: go to backend folder/ .env file and paste the (for localhost)
+
+```
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/secondhand-platform
+JWT_SECRET=yourVeryStrongSecretKey
+CLIENT_URL=http://localhost:5173
+```
+step 4: go to frontend folder/ .env file and paste the (for localhost)
+
+```
+VITE_BACKEND_URI="http://localhost:5000"
+```
+
+To run the frontend
+goto frontend and open CMD in same path,
+run command "npm install" //this will install all the dependencies
+run command "npm run dev"
+
+To run the backend  
+goto backend and open CMD in same path,
+run command "npm install" //this will install all the dependencies
+run command "nodemon i"
+
+DONE
+
+email = 'admin@email.com'
+password = 'admin@123'
