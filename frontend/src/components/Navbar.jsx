@@ -69,7 +69,7 @@ const Navbar = () => {
           <div className="flex justify-between items-center h-full">
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Link 
-                to="/" 
+                to={admin? "/dashboard": "/"} 
                 className={`text-xl font-bold ${COLORS.textHover} transition-colors`}
                 onClick={() => setMenuOpen(false)}
               >
@@ -149,9 +149,8 @@ function renderNavItems({ user, admin, handleLogout, isMobile, closeMenu }) {
     : user
     ? [
         { to: '/', icon: <FiHome />, text: 'Home' },
-        { to: '/my-products', icon: <FiShoppingBag />, text: 'My Products' },
         { to: '/my-orders', icon: <FiList />, text: 'My Orders'},
-        { to: '/add-product', icon: <FiPlusSquare />, text: 'List Product' },
+        { to: '/add-product', icon: <FiPlusSquare />, text: 'List' },
         { to: '/profile', icon: <FiUser />, text: 'Profile' },
         { action: handleLogout, icon: <FiLogOut />, text: 'Logout' },
       ]

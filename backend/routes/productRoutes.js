@@ -10,6 +10,7 @@ const {
   getBuyerInfo,
   deleteProduct,
   updateMyProduct,
+  getMyProducts,
   getMyOrders
 } = require('../controllers/productController');
 
@@ -36,5 +37,7 @@ router.delete('/:id', auth, deleteProduct);
 
 // ✅ Update product (only seller, with optional new images)
 router.put('/:id', auth, upload.array('images', 5), updateMyProduct);
+
+router.get('/my/products', auth, getMyProducts);
 
 module.exports = router;
