@@ -5,6 +5,7 @@ import { FiShoppingCart, FiDollarSign, FiUser, FiCalendar, FiMapPin, FiPackage }
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import { useMediaQuery } from 'react-responsive';
+import { formatINR } from '../utils/formatINR';
 const backend = import.meta.env.VITE_BACKEND_URI;
 
 const MyOrders = () => {
@@ -89,8 +90,7 @@ const MyOrders = () => {
                   </h3>
 
                   <div className="flex items-center mb-3">
-                    <FiDollarSign className="text-indigo-600 mr-1" />
-                    <span className="text-lg font-semibold text-indigo-600">₹{order.price}</span>
+                    <span className="text-lg font-semibold text-indigo-600">{formatINR(order.price)}</span>
                   </div>
 
                   <div className="space-y-2 text-sm text-gray-700">

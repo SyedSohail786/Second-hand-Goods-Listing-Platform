@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import useAuthStore from '../store/authStore';
 import { Link } from 'react-router-dom';
-import { FiEdit2, FiTrash2, FiPackage, FiCheckCircle, FiClock, FiPlus } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiPackage, FiUser, FiPlus } from 'react-icons/fi';
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import { useMediaQuery } from 'react-responsive';
 import { formatINR } from '../utils/formatINR';
+import { format } from 'date-fns';
+
 const backend = import.meta.env.VITE_BACKEND_URI;
 
 const MyProducts = () => {
@@ -55,6 +57,10 @@ const MyProducts = () => {
         setDeleteLoading(null);
       }
     }
+  };
+
+  const formatDate = (dateString) => {
+    return format(new Date(dateString), 'MMMM d, yyyy');
   };
 
   useEffect(() => {
@@ -135,7 +141,6 @@ const MyProducts = () => {
                       {product.productName}
                     </h3>
                     <div className="flex items-center text-lg font-bold text-indigo-600 whitespace-nowrap ml-2">
-                      <FaIndianRupeeSign className="mr-1" />
                       {formatINR(product.price)}
                     </div>
                   </div>
@@ -145,34 +150,53 @@ const MyProducts = () => {
                     {product.category}
                   </div>
 
-                  <div className="mt-auto">
-                    <div className="flex justify-between space-x-2">
-                      <Link
-                        to={`/edit-product/${product._id}`}
-                        className="flex-1 flex items-center justify-center px-3 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition"
-                      >
-                        <FiEdit2 className="mr-2" />
-                        Edit
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(product._id)}
-                        disabled={deleteLoading === product._id}
-                        className="flex-1 flex items-center justify-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition disabled:opacity-70"
-                      >
-                        {deleteLoading === product._id ? (
-                          <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                        ) : (
-                          <>
-                            <FiTrash2 className="mr-2" />
-                            Delete
-                          </>
-                        )}
-                      </button>
+                  {/* Buyer Information for Sold Products */}
+                  {product.buyer && (
+                    <div className="mt-2 mb-4 p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                        <FiUser className="mr-2" />
+                        Sold to: {product.buyer.name}
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        On: {formatDate(product.buyer.buyDate)}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        Location: {product.buyer.location}
+                      </div>
                     </div>
-                  </div>
+                  )}
+
+                  {/* Action Buttons (only show if not sold) */}
+                  {!product.buyer && (
+                    <div className="mt-auto">
+                      <div className="flex justify-between space-x-2">
+                        <Link
+                          to={`/edit-product/${product._id}`}
+                          className="flex-1 flex items-center justify-center px-3 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition"
+                        >
+                          <FiEdit2 className="mr-2" />
+                          Edit
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(product._id)}
+                          disabled={deleteLoading === product._id}
+                          className="flex-1 flex items-center justify-center px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition disabled:opacity-70"
+                        >
+                          {deleteLoading === product._id ? (
+                            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                          ) : (
+                            <>
+                              <FiTrash2 className="mr-2" />
+                              Delete
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}
